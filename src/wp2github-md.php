@@ -29,7 +29,7 @@ if ( false === $to ) {
 	$to = $to[0] . '.md';
 }
 
-$mk_content = WP2Github_MD\Converter::convert( file_get_contents( $from ) );
+$mk_content = WP2Github_MD\Converter::convert( file_get_contents( $from ), $plugin_slug );
 file_put_contents( $to, $mk_content );
 echo 'Markdown File Saved @ ' . $to;
 //WPReadme2Markdown\Converter::convert();
