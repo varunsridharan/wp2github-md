@@ -1,11 +1,6 @@
 <?php
-$lib = 'wpreadme2markdown/wpreadme2markdown/src/Converter.php';
 
-if ( file_exists( __DIR__ . '/vendor/' . $lib ) ) {
-	require_once __DIR__ . '/vendor/' . $lib;
-} elseif ( file_exists( __DIR__ . '/../../vendor/' . $lib ) ) {
-	require_once __DIR__ . '/../../vendor/' . $lib;
-}
+require_once __DIR__ . '/Converter.php';
 
 $plugin_slug = ( isset( $argv[1] ) ) ? $argv[1] : false;
 $from        = ( isset( $argv[2] ) ) ? $argv[2] : false;
@@ -34,7 +29,7 @@ if ( false === $to ) {
 	$to = $to[0] . '.md';
 }
 
-$mk_content = WPReadme2Markdown\Converter::convert( file_get_contents( $from ) );
+$mk_content = WP2Github_MD\Converter::convert( file_get_contents( $from ) );
 file_put_contents( $to, $mk_content );
 echo 'Markdown File Saved @ ' . $to;
 //WPReadme2Markdown\Converter::convert();
