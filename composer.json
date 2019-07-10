@@ -1,41 +1,36 @@
 {
-  "name"        : "",
-  "description" : "",
+  "name"        : "varunsridharan/wp2github-md",
+  "description" : "Lightweight Application To Convert WordPress Readme Into Github Markdown",
   "readme"      : "readme.md",
   "support"     : {
-	"email"  : "varunsridharan23@gmail.com",
-	"docs"   : "",
-	"issues" : "",
-	"source" : ""
+    "email"  : "varunsridharan23@gmail.com",
+    "docs"   : "https://github.com/varunsridharan/wp2github-md",
+    "issues" : "https://github.com/varunsridharan/wp2github-md",
+    "source" : "https://github.com/varunsridharan/wp2github-md"
   },
-  "homepage"    : "",
+  "homepage"    : "https://github.com/varunsridharan/wp2github-md",
   "license"     : "GPL-3.0-or-later",
-  "keywords"    : [ ],
-  "require"     : {
-	"wponion/wponion"              : "*",
-	"varunsridharan/vsp-framework" : "*"
-  },
-  "require-dev" : {
-	"varunsridharan/wp-cli-textdomain" : "*",
-	"varunsridharan/wp2github-md"      : "*"
-  },
-  "scripts"     : {
-	"makepot"        : "makepot ./wp-pot.json",
-	"add-textdomain" : "add-textdomain -i {textdomain} ./",
-	"build"          : [ "@makepot", "add-textdomain" ]
-  },
+  "keywords"    : [
+    "github",
+    "wordpress",
+    "github-md",
+    "markdown",
+    "wordpress-readme",
+    "readme",
+    "readme-md",
+    "md-readme"
+  ],
   "autoload"    : {
-	"psr-4"    : { },
-	"psr-0"    : { },
-	"classmap" : [ ],
-	"files"    : [ ]
+    "psr-4" : {
+      "WP2Github_MD\\" : "src/"
+    }
   },
   "authors"     : [
-	{
-	  "name"     : "Varun Sridharan",
-	  "email"    : "varunsridharan23@gmail.com",
-	  "homepage" : "http://varunsridharan.in",
-	  "role"     : "Developer"
-	}
+    {
+      "name"     : "Varun Sridharan",
+      "email"    : "varunsridharan23@gmail.com",
+      "homepage" : "http://varunsridharan.in",
+      "role"     : "Developer"
+    }
   ]
 }
