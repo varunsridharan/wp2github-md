@@ -20,6 +20,7 @@
     "readme-md",
     "md-readme"
   ],
+  "bin"         : [ "./bin/wp2gitthub-md.bat" ],
   "autoload"    : {
     "psr-4" : {
       "WP2Github_MD\\" : "src/"
