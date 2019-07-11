@@ -19,7 +19,7 @@ if ( empty( $plugin_slug ) ) {
 	return false;
 }
 
-if ( ! file_exists( $from ) ) {
+if ( ! filter_var( $from, FILTER_VALIDATE_URL ) && ! file_exists( $from ) ) {
 	echo 'WP2Github-MD : Readme File Not Exists';
 	return false;
 }
@@ -29,7 +29,11 @@ if ( false === $to ) {
 	$to = $to[0] . '.md';
 }
 
-$mk_content = WP2Github_MD\Converter::convert( file_get_contents( $from ), $plugin_slug );
-file_put_contents( $to, $mk_content );
-echo 'Markdown File Saved @ ' . $to;
-//WPReadme2Markdown\Converter::convert();
+$contents = @file_get_contents( $from );
+if ( ! empty( $contents ) ) {
+	$mk_content = WP2Github_MD\Converter::convert( $contents, $plugin_slug );
+	file_put_contents( $to, $mk_content );
+	echo 'Markdown File Saved @ ' . $to . PHP_EOL;
+} else {
+	echo 'Empty Markdown File !' . PHP_EOL;
+}

@@ -71,6 +71,7 @@ class Converter {
 				$i++;
 			}
 		}
+		$readme = self::handle_contributors( $readme );
 		return ltrim( $readme );
 	}
 
@@ -130,17 +131,30 @@ class Converter {
 		if ( empty( $url_parts['host'] ) ) {
 			return false;
 		}
+		$host = $url_parts['host'];
 
-		$host         = $url_parts['host'];
-		$documentpath = ( ! empty( $url_parts['path'] ) ) ? $url_parts['path'] : '/';
-		$documentpath .= ( ! empty( $url_parts['query'] ) ) ? '?' . $url_parts['query'] : '';
-		$port         = ( ! empty( $url_parts['port'] ) ) ? $url_parts['port'] : '80';
-		$socket       = fsockopen( $host, $port, $errno, $errstr, 30 );
+		if ( ! empty( $url_parts['path'] ) ) {
+			$documentpath = $url_parts['path'];
+		} else {
+			$documentpath = '/';
+		}
+
+		if ( ! empty( $url_parts['query'] ) ) {
+			$documentpath .= '?' . $url_parts['query'];
+		}
+
+		if ( ! empty( $url_parts['port'] ) ) {
+			$port = $url_parts['port'];
+		} else {
+			$port = '80';
+		}
+
+		$socket = fsockopen( $host, $port, $errno, $errstr, 30 );
 
 		if ( ! $socket ) {
 			return false;
 		} else {
-			fwrite( $socket, 'HEAD ' . $documentpath . '  HTTP/1.0\r\nHost: ' . $host . '\r\n\r\n' );
+			fwrite( $socket, 'HEAD ' . $documentpath . " HTTP/1.0\r\nHost: $host\r\n\r\n" );
 			$http_response = fgets( $socket, 22 );
 
 			if ( preg_match( '/200 OK/', $http_response, $regs ) ) {
@@ -150,5 +164,26 @@ class Converter {
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * @param $readme
+	 *
+	 * @static
+	 * @return mixed
+	 */
+	private static function handle_contributors( $readme ) {
+		preg_match( '/(\*\*Contributors:\*\* (.*))/m', $readme, $matches, PREG_OFFSET_CAPTURE, 0 );
+		if ( isset( $matches[2][0] ) ) {
+			$contributors_raw = trim( $matches[2][0] );
+			$contributors     = array_filter( explode( ',', $contributors_raw ) );
+			if ( ! empty( $contributors ) ) {
+				foreach ( $contributors as $id => $user ) {
+					$contributors[ $id ] = '[' . $user . '](https://profile.wordpress.org/' . $user . ')';
+				}
+				$readme = str_replace( $contributors_raw, implode( ' , ', $contributors ), $readme );
+			}
+		}
+		return $readme;
 	}
 }
